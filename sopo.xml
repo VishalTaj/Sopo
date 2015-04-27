@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="sopo_order_tree">
+            <field name="model">sale.order</field>
+            <field name="name">view.inherit.sale.order.sopo.tree</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                   <field name="user_id" position="after">
+                       <field name="project"/>
+                       <field name="contract_no"/>
+                   </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="sopo_order_form">
+            <field name="model">sale.order</field>
+            <field name="name">view.inherit.sale.order.form</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group" position="inside" >
+                   <field name="project"/>
+                   <field name="contract_no"/>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="poso_order_tree">
+            <field name="model">purchase.order</field>
+            <field name="name">view.inherit.purchase.order.poso.tree</field>
+            <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+            <field name="arch" type="xml">
+                   <field name="amount_total" position="after">
+                       <field name="related_sale_order" />
+                       <field name="contract_no"/>
+                   </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="poso_order_form">
+            <field name="model">purchase.order</field>
+            <field name="name">view.inherit.purchase.order.poso.form</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group" position="inside" >
+                   <group>
+                        <field name="related_sale_order" on_change="change_cn(related_sale_order)"/>
+                        <field name="contract_no"/>
+                   </group>
+                </xpath>
+            </field>
+        </record>
+         <record id="view_tab_sopo_tree" model="ir.ui.view">
+        <field name="name">view.inherit.sale.order.sopo.tab.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Related Purchase Order">
+                    <field name="sale_order_in"/>
+                </page>
+            </notebook>
+        </field>
+    </record>
+    <record id="view_tab_salesmen_commission_sopo_tree" model="ir.ui.view">
+        <field name="name">view.inherit.salesmen.commission.order.sopo.tab.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Salesmen commission">
+                      <field name="sales_commission"/>
+                </page>
+
+            </notebook>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="sales_ship_tree">
+            <field name="name">sales.commision.tree</field>
+            <field name="model">sales.commission</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree editable= "bottom">
+                    <field name="user"/>
+                    <field name="sales_value"/>
+                    <field name="percentage"/>
+                    <field name="commission"/>
+                </tree>
+            </field>
+    </record>
+    <record model="ir.module.category" id="commission_group">
+        <field name="name">Commission</field>
+        <field name="description">Description</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="group_commission" model="res.groups">
+        <field name="name">Commission Group</field>
+        <field name="category_id" ref="commission_group"/>
+    </record>
+    </data>
+</openerp>
