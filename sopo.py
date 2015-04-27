@@ -22,6 +22,8 @@ class commission_tab(osv.Model):
 
     def _get_commission(self, cr, uid, ids,fields,args, context=None):
         obj = {}
+        for record in self.browse(cr,uid,ids,context=context):
+            obj[record.id] = (record.sales_value * record.percentage)/100
         return obj
 
     _columns = {
